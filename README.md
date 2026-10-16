@@ -7,6 +7,8 @@
 
 I build robot software end to end: recognition and supervision logic, Cartesian and torque controllers on Franka arms, and the experiments and tests that show whether they work. When a spreadsheet stops being enough, I build the tool myself.
 
+**Case studies of all four projects, including the private ones:** [feizaodemon.github.io/feizaodemon](https://feizaodemon.github.io/feizaodemon/)
+
 ## Featured project
 
 ### [Magnetic Trajectory Robot Interface](https://github.com/feizaodemon/magnetic-trajectory-robot-interface)
@@ -26,11 +28,11 @@ Draw a symbol on a magnetic board or with the mouse. The system recognizes it, t
 - **Confirmation-gated control.** Recognition, confirmation, dispatch and execution are separate ROS nodes. Only the dispatcher can command the robot, and only after an explicit confirm.
 - **One teleop core, two robots.** A C++ Cartesian core with damped-least-squares IK drives both a Gazebo Panda and a Franka FR3 adapter.
 
-ROS1 Noetic · Python · C++ · Gazebo · Docker → [Design decisions](https://github.com/feizaodemon/magnetic-trajectory-robot-interface/blob/main/docs/DESIGN_DECISIONS.md)
+ROS1 Noetic · Python · C++ · Gazebo · Docker → [Try the recognizer in your browser](https://feizaodemon.github.io/magnetic-trajectory-robot-interface/) · [Design decisions](https://github.com/feizaodemon/magnetic-trajectory-robot-interface/blob/main/docs/DESIGN_DECISIONS.md)
 
 ## More work
 
-<sub>These repositories are private (team, coursework or personal data), so they are described here instead of linked.</sub>
+<sub>These repositories are private (team, coursework or personal data), so they are described here instead of linked. Each one has a longer [case study](https://feizaodemon.github.io/feizaodemon/).</sub>
 
 <table>
 <tr>

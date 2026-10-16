@@ -231,7 +231,7 @@ def mtri(L):
         "stats": [("100%", T("leave-one-out Top-1 on the bank", "模板库留一法 Top-1")),
                   ("~83 ms", T("median per query, pure Python", "单次识别中位数，纯 Python")),
                   ("124 · 8", T("templates · symbols", "模板 · 符号")),
-                  ("~495", T("pytest cases, plus C++ tests", "个 pytest 用例，另有 C++ 测试"))],
+                  ("~590", T("pytest cases, plus C++ tests", "个 pytest 用例，另有 C++ 测试"))],
         "media": f'<figure><img src="{"../" if L == "zh" else ""}assets/mtri-task-gazebo.gif" alt="{T("A drawn 2 is recognized, confirmed, and the Gazebo robot runs the task", "画出的 2 被识别、确认，Gazebo 中的机器人执行任务")}" loading="lazy"><figcaption>{T("TASK mode in Gazebo: a mouse-drawn “2” is recognized, confirmed on the C dwell button, and the robot runs the mapped motion. Simulation, not hardware footage.", "Gazebo 中的 TASK 模式：鼠标画的“2”被识别，在 C 停留按钮上确认后，机器人执行对应动作。这是仿真画面，不是真机录像。")}</figcaption></figure>',
         "problem": T("<p>A gesture interface for a robot arm has two jobs that pull against each other. It should feel quick, but a wrong guess must never move the robot. The project also had to run the same way against a simulated Panda and a real Franka FR3, and keep working when the input came from a serial magnetic board instead of a mouse.</p>",
                      "<p>机械臂的手势交互有两个相互牵制的目标：要反应快，但识别错了绝不能让机器人动。同一套系统还要既能接 Gazebo 里的仿真 Panda，也能接真实的 Franka FR3，而且输入既可以是鼠标，也可以是串口磁性画板。</p>"),
@@ -261,13 +261,13 @@ def mtri(L):
 <tr><td>Queries accepted by the runtime gates</td><td>100%, all correct</td></tr>
 <tr><td>Recognition time, pure-Python DTW</td><td>83 ms median, 118 ms p95, one core</td></tr>
 <tr><td>Robustness, DTW vs. Protractor (noise σ=0.12 / 45° rotation / 30% truncation)</td><td>95.2 / 84.1 / 38.7% vs. 100 / 100 / 18.5%</td></tr>
-<tr><td>Automated checks</td><td>about 495 pytest tests, 7 C++ test programs, CI with a headless Gazebo smoke test</td></tr>
+<tr><td>Automated checks</td><td>about 590 pytest tests, 7 C++ test programs, CI with a headless Gazebo smoke test</td></tr>
 </tbody></table>""", """<table><thead><tr><th>指标</th><th>结果</th></tr></thead><tbody>
 <tr><td>124 个模板、8 个符号的留一法评测</td><td>Top-1 100%，Top-3 100%</td></tr>
 <tr><td>通过运行时门限的查询</td><td>100%，全部正确</td></tr>
 <tr><td>识别耗时（纯 Python DTW）</td><td>中位数 83 ms，p95 118 ms，单核</td></tr>
 <tr><td>鲁棒性：DTW 对比 Protractor（噪声 σ=0.12 / 旋转 45° / 截断 30%）</td><td>95.2 / 84.1 / 38.7% 对比 100 / 100 / 18.5%</td></tr>
-<tr><td>自动化检查</td><td>约 495 个 pytest 用例、7 个 C++ 测试程序，CI 含无界面 Gazebo 冒烟测试</td></tr>
+<tr><td>自动化检查</td><td>约 590 个 pytest 用例、7 个 C++ 测试程序，CI 含无界面 Gazebo 冒烟测试</td></tr>
 </tbody></table>"""),
         "role": T("<p>The repository is my portfolio copy of a collaborative project. My parts: the board orientation clutch and the board and mouse profiles; the DTW recognition path, gates, tracked bank and evaluation tools; the shared dashboard and confirmation flow; integration of the dispatcher, Gazebo bridge and FR3 adapter; TASK/TELEOP ownership and the shared Cartesian core; Docker packaging, CI and tests; and the architecture, safety and validation docs.</p>",
                   "<p>这个仓库是一个合作项目的作品集版本。我负责的部分：画板的方向离合和画板/鼠标两套交互配置；DTW 识别路径、门限、模板库和评测工具；共用仪表盘和确认流程；调度节点、Gazebo 桥接和 FR3 适配器的集成；TASK/TELEOP 指令权和共用笛卡尔核心；Docker 打包、CI 和测试；以及架构、安全和验证文档。</p>"),

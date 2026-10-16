@@ -7,6 +7,8 @@
 
 我做端到端的机器人软件：识别与监督逻辑、Franka 机械臂上的笛卡尔控制和力矩控制，以及验证它们是否真正有效的实验和测试。表格不够用的时候，我会自己写工具。
 
+**四个项目（包括私有项目）的案例介绍：** [feizaodemon.github.io/feizaodemon/zh/](https://feizaodemon.github.io/feizaodemon/zh/)
+
 ## 代表项目
 
 ### [磁性轨迹机器人交互系统（Magnetic Trajectory Robot Interface）](https://github.com/feizaodemon/magnetic-trajectory-robot-interface)
@@ -26,11 +28,11 @@
 - **确认后才执行**：识别、确认、调度、执行是四个独立的 ROS 节点。只有调度节点能给机器人下指令，而且必须在操作员明确确认之后。
 - **一套遥操作核心驱动两台机器人**：基于阻尼最小二乘逆运动学的 C++ 笛卡尔核心，同时驱动 Gazebo 中的 Panda 和 Franka FR3 适配器。
 
-ROS1 Noetic · Python · C++ · Gazebo · Docker → [设计决策（英文）](https://github.com/feizaodemon/magnetic-trajectory-robot-interface/blob/main/docs/DESIGN_DECISIONS.md)
+ROS1 Noetic · Python · C++ · Gazebo · Docker → [在浏览器里试用识别器](https://feizaodemon.github.io/magnetic-trajectory-robot-interface/) · [设计决策（英文）](https://github.com/feizaodemon/magnetic-trajectory-robot-interface/blob/main/docs/DESIGN_DECISIONS.md)
 
 ## 其他项目
 
-<sub>以下仓库是私有的（团队项目、课程作业或含个人数据），所以这里只做文字介绍，不放链接。</sub>
+<sub>以下仓库是私有的（团队项目、课程作业或含个人数据），所以这里只做文字介绍，不放链接。每个项目都有更详细的[案例页](https://feizaodemon.github.io/feizaodemon/zh/)。</sub>
 
 <table>
 <tr>
