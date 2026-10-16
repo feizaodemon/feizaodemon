@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Xiaowei Rong · 机器人软件项目案例</title>
+<meta name="description" content="四个机器人与软件项目的案例介绍。">
+<link rel="alternate" hreflang="en" href="../">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="./"><span class="dot"></span>Xiaowei Rong</a>
+<nav><a href="https://github.com/feizaodemon">GitHub</a><a class="lang" href="../" hreflang="en">English</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero home">
+<svg class="loop" viewBox="0 0 400 160" aria-hidden="true"><path d="M20,120 C80,10 160,10 190,80 C220,150 300,150 340,60 C360,20 390,30 385,70"/><circle cx="385" cy="70" r="6"/></svg>
+<p class="kicker">机器人软件 · 控制 · 全栈工具</p>
+<h1>Xiaowei Rong</h1>
+<p class="lede">我做端到端的机器人软件：识别与监督逻辑、Franka 机械臂上的笛卡尔控制和力矩控制，以及验证它们是否真正有效的实验和测试。表格不够用的时候，我会自己写工具。</p>
+<div class="actions"><a class="btn primary" href="https://feizaodemon.github.io/magnetic-trajectory-robot-interface/">在线试用手势识别器</a><a class="btn" href="https://github.com/feizaodemon">GitHub</a></div>
+</section>
+<section><h2>项目案例</h2>
+<p class="sub">其中一个项目是开源的；另外三个是团队项目、课程作业或含有个人数据，所以仓库是私有的。每个案例都讲清问题、设计和取舍，但不公开代码。</p>
+<div class="cards"><a class="card feat" href="mtri.html">
+<img src="../assets/mtri-task-gazebo.gif" alt="" loading="lazy"><div class="cbody"><p class="kicker"><span class="tag pub">开源</span>在线演示 · ROS1 Noetic</p>
+<h3>磁性轨迹机器人交互系统</h3><p>手势到任务的机器人交互：识别后需确认，一个 C++ 遥操作核心同时驱动 Gazebo 和 FR3。</p><div class="chips"><span class="chip">100% LOO Top-1</span><span class="chip">~83 ms</span><span class="chip">在线演示</span></div>
+<span class="more">阅读案例 →</span></div></a><a class="card" href="gp.html">
+<div class="cbody"><p class="kicker"><span class="tag">私有</span>团队科研项目 · ROS 2 · Python</p>
+<h3>高斯过程力矩补偿</h3><p>在 Franka Panda 上做冻结 GP 与历史数据库的力矩残差补偿，分阶段在真机上测试。</p><div class="chips"><span class="chip">团队项目</span><span class="chip">真机测试</span><span class="chip">ROS 2</span></div>
+<span class="more">阅读案例 →</span></div></a><a class="card" href="job-tracker.html">
+<div class="cbody"><p class="kicker"><span class="tag">私有</span>个人工具 · TypeScript · Fastify · React · SQLite</p>
+<h3>求职工作台</h3><p>自托管的求职管理工具：可追溯的投递时间线，加一个只需 3 个权限的一键保存扩展。</p><div class="chips"><span class="chip">34 routes</span><span class="chip">420+ tests</span><span class="chip">MV3</span></div>
+<span class="more">阅读案例 →</span></div></a><a class="card" href="coursework.html">
+<div class="cbody"><p class="kicker"><span class="tag">私有</span>4 人小组项目 · ROS 2 · C++</p>
+<h3>机器人操作课程项目</h3><p>UR5e 绘图、Franka 力矩控制器示教回放、视觉触发按钮按压，以及远心点约束下的任务优先级逆运动学。</p><div class="chips"><span class="chip">4 人小组</span><span class="chip">FR3 · Panda · UR5e</span><span class="chip">ROS 2</span></div>
+<span class="more">阅读案例 →</span></div></a></div></section>
+</main>
+<footer class="wrap foot"><p>本站所有数字都来自各项目自己的仓库；仓库里没有记录的内容，页面上会直接说明。</p><p><a href="https://github.com/feizaodemon">github.com/feizaodemon</a></p></footer>
+</body>
+</html>

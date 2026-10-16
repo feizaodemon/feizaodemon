@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>机器人操作课程项目 · Xiaowei Rong</title>
+<meta name="description" content="在 UR5e、Franka Panda 和 Franka FR3 上完成的四个项目：按 SVG 绘图、示教并回放动作、用相机找到亮起的按钮并按下、让工具始终穿过一个固定点运动。">
+<link rel="alternate" hreflang="en" href="../coursework.html">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="./"><span class="dot"></span>Xiaowei Rong</a>
+<nav><a href="https://github.com/feizaodemon">GitHub</a><a class="lang" href="../coursework.html" hreflang="en">English</a></nav>
+</div></header>
+<main class="wrap">
+<p class="crumb"><a href="./">← 全部项目</a></p>
+<section class="hero proj">
+<p class="kicker">4 人小组项目 · ROS 2 · C++</p>
+<h1>机器人操作课程项目</h1>
+<p class="lede">在 UR5e、Franka Panda 和 Franka FR3 上完成的四个项目：按 SVG 绘图、示教并回放动作、用相机找到亮起的按钮并按下、让工具始终穿过一个固定点运动。</p>
+
+<p class="private"><span class="lock" aria-hidden="true"></span>私有仓库。本页只介绍工作内容，不公开代码。</p>
+</section>
+<h2 class="sr">概览</h2>
+<div class="stats"><div class="stat"><div class="v">4</div><div class="k">个项目，3 种机器人</div></div><div class="stat"><div class="v">77 s → ~180 s</div><div class="k">绘图耗时，仿真对比真机</div></div><div class="stat"><div class="v">13,833</div><div class="k">个示教采样，共 13.8 s</div></div><div class="stat"><div class="v">3</div><div class="k">层 RCM 任务优先级</div></div></div>
+
+<section><h2>要解决的问题</h2><p>每个项目把操作中的一个环节放到真机上：离线编程及其节拍、人类示教在力矩层面的回放、接近接触时仍要可信的感知，以及硬约束下的冗余求解。</p></section>
+<section><h2>系统结构</h2><p>绘图项目在 RoboDK 中离线编程并导出为 URScript。其余三个是基于 franka_ros2 的 ROS 2 Humble 包：回放用的关节阻抗力矩控制器、按按钮用的感知节点加自定义接触控制器，以及 RCM 项目里发布关节速度的任务优先级逆运动学求解器。</p><div class="diagram"><svg viewBox="0 0 960 360" role="img" aria-label="课程项目：示教回放流程与远心点任务优先级结构"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-head"/></marker></defs><rect class="d-band" x="10" y="10" width="940" height="150" rx="14"/><text class="d-k" x="24" y="32">示教擦除（Franka FR3）</text><rect class="d-node" x="30" y="55" width="205" height="80" rx="10"/><text class="d-t" x="132.5" y="88.0" text-anchor="middle">手动拖动示教</text><text class="d-s" x="132.5" y="106.0" text-anchor="middle">重力补偿</text><path class="d-arr" d="M235,95 L262,95" marker-end="url(#ah)"/><rect class="d-node" x="262" y="55" width="205" height="80" rx="10"/><text class="d-t" x="364.5" y="88.0" text-anchor="middle">录制</text><text class="d-s" x="364.5" y="106.0" text-anchor="middle">ros2 bag → CSV</text><text class="d-s" x="364.5" y="121.0" text-anchor="middle">13,833 个采样 / 13.8 s</text><path class="d-arr" d="M467,95 L494,95" marker-end="url(#ah)"/><rect class="d-node" x="494" y="55" width="205" height="80" rx="10"/><text class="d-t" x="596.5" y="88.0" text-anchor="middle">回放</text><text class="d-s" x="596.5" y="106.0" text-anchor="middle">τ = K(q_goal − q) − D·q̇</text><path class="d-arr" d="M699,95 L726,95" marker-end="url(#ah)"/><rect class="d-gate" x="726" y="55" width="205" height="80" rx="10"/><text class="d-t" x="828.5" y="88.0" text-anchor="middle">安全层</text><text class="d-s" x="828.5" y="106.0" text-anchor="middle">NaN 置零，逐关节</text><text class="d-s" x="828.5" y="121.0" text-anchor="middle">限制幅值和变化率</text><rect class="d-band" x="10" y="175" width="940" height="175" rx="14"/><text class="d-k" x="24" y="197">远心点约束（Franka FR3）</text><rect class="d-gate" x="30" y="210" width="40" height="34" rx="10"/><text class="d-t" x="50.0" y="232.0" text-anchor="middle">1</text><rect class="d-node" x="80" y="210" width="560" height="34" rx="10"/><text class="d-t" x="360.0" y="232.0" text-anchor="middle">远心点约束：器械必须穿过套管点</text><rect class="d-gate" x="30" y="252" width="40" height="34" rx="10"/><text class="d-t" x="50.0" y="274.0" text-anchor="middle">2</text><rect class="d-node" x="80" y="252" width="560" height="34" rx="10"/><text class="d-t" x="360.0" y="274.0" text-anchor="middle">工具尖端跟踪，位于优先级 1 的零空间</text><rect class="d-gate" x="30" y="294" width="40" height="34" rx="10"/><text class="d-t" x="50.0" y="316.0" text-anchor="middle">3</text><rect class="d-node" x="80" y="294" width="560" height="34" rx="10"/><text class="d-t" x="360.0" y="316.0" text-anchor="middle">关节限位居中，位于剩余零空间</text><rect class="d-node" x="670" y="210" width="260" height="118" rx="10"/><text class="d-t" x="800.0" y="262.0" text-anchor="middle">第 8 个虚拟关节 η</text><text class="d-s" x="800.0" y="280.0" text-anchor="middle">插入深度：移动套管点，</text><text class="d-s" x="800.0" y="295.0" text-anchor="middle">不移动工具尖端</text><text class="d-s" x="800.0" y="310.0" text-anchor="middle">DLS 阻尼 1e-3</text><text class="d-s" x="800.0" y="325.0" text-anchor="middle">雅可比与有限差分对照测试</text></svg></div></section>
+<section><h2>关键设计决策</h2><div class="decs"><article class="dec"><div class="num">01</div><div><h3>用关节阻抗力矩控制器回放</h3><dl><dt>选择</dt><dd>对示教 CSV 插值，先热启动到第一个采样点，再通过力矩接口用 τ = K(q_goal − q) − D·q̇ 跟踪。</dd><dt>放弃</dt><dd>位置控制器。</dd><dt>取舍</dt><dd>回放是柔顺的，因此前面加了一层软件安全层：非有限值置零，逐关节限制幅值和变化率；它不替代 Franka 自身的安全机制。</dd></dl></div></article><article class="dec"><div class="num">02</div><div><h3>视觉决定按哪个，示教位姿决定按在哪</h3><dl><dt>选择</dt><dd>用 HSV 颜色和亮度阈值找到亮起的按钮，按压动作本身使用示教位置。</dd><dt>放弃</dt><dd>完全依赖视觉的三维按压，以及在紧凑面板上轨迹过大的 MoveIt 自由空间规划。</dd><dt>取舍</dt><dd>接触时不依赖小的标定或执行误差，但按压只在示教时的面板位置上验证过。</dd></dl></div></article><article class="dec"><div class="num">03</div><div><h3>严格任务优先级加第 8 个虚拟关节</h3><dl><dt>选择</dt><dd>插入深度建模为虚拟移动关节 η；RCM 约束优先，工具尖端跟踪在其零空间中，关节限位居中在剩余零空间中，求解用阻尼最小二乘（1e-3）。</dd><dt>放弃</dt><dd>加权的非严格优先级。</dd><dt>取舍</dt><dd>任务冲突时工具尖端让位于 RCM；解析雅可比在单元测试中与有限差分对照验证。</dd></dl></div></article><article class="dec"><div class="num">04</div><div><h3>实测仿真和真机节拍，而不是想当然</h3><dl><dt>选择</dt><dd>SVG 路径约 5 mm 采样、1 mm 过渡半径，然后分别在仿真和 UR5e 上计时。</dd><dt>放弃</dt><dd>未记录。</dd><dt>取舍</dt><dd>画圆仿真 44 s、真机约 60 s；画机器人图案仿真 77 s、真机约 180 s。差距归因于大量短线段、加速度限制和很小的过渡半径；验证这个解释的实验没有记录。</dd></dl></div></article></div></section>
+<section><h2>结果</h2><p>RCM 控制器在真实 FR3 上运行过；示教回放和按按钮控制器在实验室机器人上运行过。课程结束后，仓库补上了 CI：构建并测试 RCM 包，并运行感知部分的测试。</p></section>
+<section><h2>我负责的部分</h2><p>4 人小组的课程项目。四个项目我都参与了代码开发和真机测试。课程期间的提交都用的是共享的团队账号，提交历史无法区分每个人写了哪部分；因此我只描述自己的角色，不把任何一个项目说成是我一个人完成的。</p></section>
+<section><h2>局限与下一步</h2><ul><li>RCM 没有记录数值误差汇总，误差只在结果图里。</li><li>按钮检测准确率和光照鲁棒性没有测量。</li><li>绘图项目节拍差异的解释没有用第二次实验验证。</li></ul></section>
+<p class="crumb end"><a href="./">← 全部项目</a></p>
+</main>
+<footer class="wrap foot"><p>本站所有数字都来自各项目自己的仓库；仓库里没有记录的内容，页面上会直接说明。</p><p><a href="https://github.com/feizaodemon">github.com/feizaodemon</a></p></footer>
+</body>
+</html>
