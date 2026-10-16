@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>高斯过程力矩补偿 · Xiaowei Rong</title>
+<meta name="description" content="用高斯过程学习 Franka Panda 的关节力矩残差，并把经过缩放和限幅的一小部分预测反馈给阻抗控制器。">
+<link rel="alternate" hreflang="en" href="../gp.html">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="./"><span class="dot"></span>Xiaowei Rong</a>
+<nav><a href="https://github.com/feizaodemon">GitHub</a><a class="lang" href="../gp.html" hreflang="en">English</a></nav>
+</div></header>
+<main class="wrap">
+<p class="crumb"><a href="./">← 全部项目</a></p>
+<section class="hero proj">
+<p class="kicker">团队科研项目 · ROS 2 · Python</p>
+<h1>高斯过程力矩补偿</h1>
+<p class="lede">用高斯过程学习 Franka Panda 的关节力矩残差，并把经过缩放和限幅的一小部分预测反馈给阻抗控制器。</p>
+
+<p class="private"><span class="lock" aria-hidden="true"></span>私有仓库。本页只介绍工作内容，不公开代码。</p>
+</section>
+<h2 class="sr">概览</h2>
+<div class="stats"><div class="stat"><div class="v">9</div><div class="k">条设计决策有记录</div></div><div class="stat"><div class="v">Stage 1–5</div><div class="k">以及 GOAL1、GOAL2、GOAL12</div></div><div class="stat"><div class="v">14-D</div><div class="k">开启 GP 前的覆盖检查</div></div><div class="stat"><div class="v">0</div><div class="k">默认补偿量（默认关闭）</div></div></div>
+
+<section><h2>要解决的问题</h2><p>阻抗控制器预期的力矩和机器人实际需要的力矩之间存在残差。GP 可以预测其中一部分，但把学习到的预测送进真机的力矩回路有风险；而模型一边运行一边在线更新，就很难判断前后差异到底来自哪里。这项工作要做的，是让 GP 补偿在真机上变得可测试，同时把风险控制住。</p></section>
+<section><h2>系统结构</h2><p>GP 模型、训练流程和原始控制器是团队更早的工作。在此基础上，实验开关负责选择补偿来源、冻结模型、设置缩放比例和 Nm 限幅；只有某次实验明确打开时补偿才生效。每个测试阶段都有书面计划、实验检查清单、一次实验、离线分析脚本和结果总结。</p><div class="diagram"><svg viewBox="0 0 960 380" role="img" aria-label="高斯过程力矩补偿：在线回路与离线分阶段实验流程"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-head"/></marker></defs><rect class="d-band" x="10" y="10" width="940" height="210" rx="14"/><text class="d-k" x="24" y="32">控制器内（每个控制周期）</text><rect class="d-io" x="30" y="60" width="150" height="70" rx="10"/><text class="d-t" x="105.0" y="88.0" text-anchor="middle">机器人状态</text><text class="d-s" x="105.0" y="106.0" text-anchor="middle">7 个关节位置 +</text><text class="d-s" x="105.0" y="121.0" text-anchor="middle">7 个期望速度</text><rect class="d-node" x="215" y="45" width="170" height="50" rx="10"/><text class="d-t" x="300.0" y="63.0" text-anchor="middle">逐关节 GP</text><text class="d-s" x="300.0" y="81.0" text-anchor="middle">本地 / 类云端</text><rect class="d-node" x="215" y="105" width="170" height="50" rx="10"/><text class="d-t" x="300.0" y="123.0" text-anchor="middle">历史残差数据库</text><text class="d-s" x="300.0" y="141.0" text-anchor="middle">hist_db 来源</text><rect class="d-gate" x="420" y="60" width="150" height="70" rx="10"/><text class="d-t" x="495.0" y="88.0" text-anchor="middle">来源开关</text><text class="d-s" x="495.0" y="106.0" text-anchor="middle">GP 或 hist_db</text><text class="d-s" x="495.0" y="121.0" text-anchor="middle">冻结：关闭在线更新</text><rect class="d-gate" x="605" y="60" width="150" height="70" rx="10"/><text class="d-t" x="680.0" y="88.0" text-anchor="middle">缩放 × 限幅</text><text class="d-s" x="680.0" y="106.0" text-anchor="middle">小比例，按 Nm 限幅</text><text class="d-s" x="680.0" y="121.0" text-anchor="middle">第 7 关节不补偿</text><rect class="d-io" x="790" y="60" width="140" height="70" rx="10"/><text class="d-t" x="860.0" y="88.0" text-anchor="middle">+ 阻抗力矩</text><text class="d-s" x="860.0" y="106.0" text-anchor="middle">默认关闭</text><path class="d-arr" d="M180,85 L198,85 L198,70 L211,70" marker-end="url(#ah)"/><path class="d-arr" d="M180,105 L198,105 L198,130 L211,130" marker-end="url(#ah)"/><path class="d-arr" d="M385,70 L400,70 L400,88 L416,88" marker-end="url(#ah)"/><path class="d-arr" d="M385,130 L400,130 L400,102 L416,102" marker-end="url(#ah)"/><path class="d-arr" d="M570,95 L601,95" marker-end="url(#ah)"/><path class="d-arr" d="M755,95 L786,95" marker-end="url(#ah)"/><text class="d-n" x="30" y="190" text-anchor="start">每次开启 GP 之前：先做 14 维关节空间覆盖检查，避免模型外推。</text><rect class="d-band" x="10" y="235" width="940" height="135" rx="14"/><text class="d-k" x="24" y="257">实验室之外（每个阶段）</text><rect class="d-node" x="30" y="280" width="158" height="64" rx="10"/><text class="d-t" x="109.0" y="305.0" text-anchor="middle">计划</text><text class="d-s" x="109.0" y="323.0" text-anchor="middle">每阶段只回答一个问题</text><path class="d-arr" d="M188,312 L210,312" marker-end="url(#ah)"/><rect class="d-node" x="214" y="280" width="158" height="64" rx="10"/><text class="d-t" x="293.0" y="305.0" text-anchor="middle">先仿真</text><text class="d-s" x="293.0" y="323.0" text-anchor="middle">MuJoCo + 假硬件</text><path class="d-arr" d="M372,312 L394,312" marker-end="url(#ah)"/><rect class="d-node" x="398" y="280" width="158" height="64" rx="10"/><text class="d-t" x="477.0" y="305.0" text-anchor="middle">真机实验</text><text class="d-s" x="477.0" y="323.0" text-anchor="middle">检查清单，记录 CSV</text><path class="d-arr" d="M556,312 L578,312" marker-end="url(#ah)"/><rect class="d-gate" x="582" y="280" width="158" height="64" rx="10"/><text class="d-t" x="661.0" y="305.0" text-anchor="middle">离线分析</text><text class="d-s" x="661.0" y="323.0" text-anchor="middle">用脚本分析，不盲目重跑</text><path class="d-arr" d="M740,312 L762,312" marker-end="url(#ah)"/><rect class="d-node" x="766" y="280" width="158" height="64" rx="10"/><text class="d-t" x="845.0" y="305.0" text-anchor="middle">报告</text><text class="d-s" x="845.0" y="323.0" text-anchor="middle">结果 + 局限说明</text></svg></div></section>
+<section><h2>关键设计决策</h2><div class="decs"><article class="dec"><div class="num">01</div><div><h3>用显式开关评估冻结的 GP</h3><dl><dt>选择</dt><dd>增加在线更新、模型目录、补偿来源、缩放和限幅等开关；测试时关闭在线更新。</dd><dt>放弃</dt><dd>直接用原来在线更新的 GP 测试，模型在被测的那次运行中不断变化。</dd><dt>取舍</dt><dd>运行中不再自适应，但每次开/关对比都能归因到同一个固定模型；默认行为保持不变。</dd></dl></div></article><article class="dec"><div class="num">02</div><div><h3>小比例加限幅，一步一步加大</h3><dl><dt>选择</dt><dd>从小比例、严格的 Nm 限幅、50 Hz 开始，上一步稳定了才往上加。</dd><dt>放弃</dt><dd>不限幅或不设上限地开启 GP。</dd><dt>取舍</dt><dd>进展更慢、效果幅度更小，换来始终处在已知的力矩范围内。</dd></dl></div></article><article class="dec"><div class="num">03</div><div><h3>开启 GP 前先检查关节空间覆盖</h3><dl><dt>选择</dt><dd>对关节位置和速度做 14 维覆盖预检，并先跑一次不开 GP 的记录实验。</dd><dt>放弃</dt><dd>保守门限通过后就继续，或者只修看起来越界的那一个关节。</dd><dt>取舍</dt><dd>会拦下一些本来可能可行的轨迹，但保证 GP 不会外推；第 7 关节不参与补偿。</dd></dl></div></article><article class="dec"><div class="num">04</div><div><h3>补偿走控制器，而不是回放节点</h3><dl><dt>选择</dt><dd>正式对比时把轨迹作为阻抗控制器的参考输入，由同一条力矩管线经过已有的门控施加 GP 补偿。</dd><dt>放弃</dt><dd>用关节空间回放节点直接发布最终力矩，这样会绕过补偿开关。</dd><dt>取舍</dt><dd>直接回放路线在真机上触发通信约束故障后被停用；这被当作架构问题处理，而不是反复重试。</dd></dl></div></article><article class="dec"><div class="num">05</div><div><h3>先仿真再进实验室，以离线分析为准</h3><dl><dt>选择</dt><dd>先用 MuJoCo 做运动学回放，再在 RViz 里跑假硬件回放，然后才上真机；每次实验后用分析脚本和带局限说明的书面总结记录结果。</dd><dt>放弃</dt><dd>新轨迹直接上真机，或者没有计划地反复重跑。</dd><dt>取舍</dt><dd>真机实验次数更少、周期更长；仿真只能证明运动学和话题连线，每个结论只对应一次实验。</dd></dl></div></article></div></section>
+<section><h2>结果</h2><p>各阶段报告对比了严格的无 GP 基线和开启 GP 的实验，也对比了在线 GP 和历史残差数据库。这些真机数字来自实验室里的单次实验，本站不公开。面试时我可以逐份讲解这些报告，以及每份报告能说明什么、不能说明什么。</p></section>
+<section><h2>我负责的部分</h2><p>大学机器人实验室的团队项目。我负责的部分：代码开发，包括让冻结 GP 测试成为可能的实验开关，以及控制器里的安全改进（带保护的启动、会话相对轨迹锚点）；和团队一起在实验室做真机测试；分阶段实验计划，每个阶段都有计划和报告；以及对比在线 GP 和历史残差数据库的离线分析。GP 模型和训练流程是团队更早的工作。</p></section>
+<section><h2>局限与下一步</h2><ul><li>每个真机结论都只基于一次实验，都不是统计意义上的结果。</li><li>仿真只覆盖了运动学和话题连线，不涉及动力学和力矩安全的结论。</li><li>会话相对锚点还在开发中，最后一次修复之后还没有记录到经过验证的真机运行。</li></ul></section>
+<p class="crumb end"><a href="./">← 全部项目</a></p>
+</main>
+<footer class="wrap foot"><p>本站所有数字都来自各项目自己的仓库；仓库里没有记录的内容，页面上会直接说明。</p><p><a href="https://github.com/feizaodemon">github.com/feizaodemon</a></p></footer>
+</body>
+</html>

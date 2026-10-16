@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Xiaowei Rong · Robot software case studies</title>
+<meta name="description" content="Case studies of four robotics and software projects.">
+<link rel="alternate" hreflang="zh-CN" href="zh/">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="./"><span class="dot"></span>Xiaowei Rong</a>
+<nav><a href="https://github.com/feizaodemon">GitHub</a><a class="lang" href="zh/" hreflang="zh-CN">中文</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero home">
+<svg class="loop" viewBox="0 0 400 160" aria-hidden="true"><path d="M20,120 C80,10 160,10 190,80 C220,150 300,150 340,60 C360,20 390,30 385,70"/><circle cx="385" cy="70" r="6"/></svg>
+<p class="kicker">Robot software · control · full-stack tools</p>
+<h1>Xiaowei Rong</h1>
+<p class="lede">I build robot software end to end: recognition and supervision logic, Cartesian and torque controllers on Franka arms, and the experiments and tests that show whether they work. When a spreadsheet stops being enough, I build the tool myself.</p>
+<div class="actions"><a class="btn primary" href="https://feizaodemon.github.io/magnetic-trajectory-robot-interface/">Try the gesture recognizer</a><a class="btn" href="https://github.com/feizaodemon">GitHub</a></div>
+</section>
+<section><h2>Case studies</h2>
+<p class="sub">One project is open source. The other three are private because they are team work, coursework or hold personal data, so each case study explains the problem, the design and the trade-offs without the code.</p>
+<div class="cards"><a class="card feat" href="mtri.html">
+<img src="assets/mtri-task-gazebo.gif" alt="" loading="lazy"><div class="cbody"><p class="kicker"><span class="tag pub">Open source</span>live demo · ROS1 Noetic</p>
+<h3>Magnetic Trajectory Robot Interface</h3><p>Gesture-to-task robot interface with a confirmation gate and one C++ teleop core for Gazebo and FR3.</p><div class="chips"><span class="chip">100% LOO Top-1</span><span class="chip">~83 ms</span><span class="chip">live demo</span></div>
+<span class="more">Read the case study →</span></div></a><a class="card" href="gp.html">
+<div class="cbody"><p class="kicker"><span class="tag">Private</span>Team research project · ROS 2 · Python</p>
+<h3>GP torque compensation</h3><p>Frozen-GP and historical-database torque residual compensation on a Franka Panda, tested in stages on the real robot.</p><div class="chips"><span class="chip">team project</span><span class="chip">real-robot tests</span><span class="chip">ROS 2</span></div>
+<span class="more">Read the case study →</span></div></a><a class="card" href="job-tracker.html">
+<div class="cbody"><p class="kicker"><span class="tag">Private</span>Personal tool · TypeScript · Fastify · React · SQLite</p>
+<h3>Job-search workbench</h3><p>Self-hosted tracker with an audited application timeline and a one-click, 3-permission job-capture extension.</p><div class="chips"><span class="chip">34 routes</span><span class="chip">420+ tests</span><span class="chip">MV3</span></div>
+<span class="more">Read the case study →</span></div></a><a class="card" href="coursework.html">
+<div class="cbody"><p class="kicker"><span class="tag">Private</span>Group projects, team of 4 · ROS 2 · C++</p>
+<h3>Robot manipulation coursework</h3><p>UR5e drawing, Franka teach-and-replay with a torque controller, vision-triggered button press, and task-priority IK under an RCM constraint.</p><div class="chips"><span class="chip">team of 4</span><span class="chip">FR3 · Panda · UR5e</span><span class="chip">ROS 2</span></div>
+<span class="more">Read the case study →</span></div></a></div></section>
+</main>
+<footer class="wrap foot"><p>Every number on this site comes from the project's own repository. Where a repository does not record something, the page says so.</p><p><a href="https://github.com/feizaodemon">github.com/feizaodemon</a></p></footer>
+</body>
+</html>

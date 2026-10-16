@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>求职工作台 · Xiaowei Rong</title>
+<meta name="description" content="自己部署、每天在用的求职管理工具，替代了 Excel 表格，配一个能从正在看的招聘页保存岗位的 Chrome 扩展。">
+<link rel="alternate" hreflang="en" href="../job-tracker.html">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="./"><span class="dot"></span>Xiaowei Rong</a>
+<nav><a href="https://github.com/feizaodemon">GitHub</a><a class="lang" href="../job-tracker.html" hreflang="en">English</a></nav>
+</div></header>
+<main class="wrap">
+<p class="crumb"><a href="./">← 全部项目</a></p>
+<section class="hero proj">
+<p class="kicker">个人工具 · TypeScript · Fastify · React · SQLite</p>
+<h1>求职工作台</h1>
+<p class="lede">自己部署、每天在用的求职管理工具，替代了 Excel 表格，配一个能从正在看的招聘页保存岗位的 Chrome 扩展。</p>
+
+<p class="private"><span class="lock" aria-hidden="true"></span>私有仓库。本页只介绍工作内容，不公开代码。</p>
+</section>
+<h2 class="sr">概览</h2>
+<div class="stats"><div class="stat"><div class="v">34</div><div class="k">个 /v1 API 路由</div></div><div class="stat"><div class="v">420+</div><div class="k">个 Vitest 用例，66 个测试文件</div></div><div class="stat"><div class="v">6 · 10</div><div class="k">张表 · 个索引</div></div><div class="stat"><div class="v">3</div><div class="k">个扩展权限</div></div></div>
+
+<section><h2>要解决的问题</h2><p>表格会丢历史：状态单元格一改，时间线就没了；“收藏了岗位”和“已经投递”也挤在同一行里。我想要一个工具：每次状态变化都保留为事件，把“已保存”和“已投递”分开，并且能一键保存岗位，同时不给浏览器扩展过大的权限。</p></section>
+<section><h2>系统结构</h2><p>pnpm monorepo：Fastify API 配 Zod 契约、React 网页、Manifest V3 扩展，数据存在 SQLite（Drizzle）。domain 层不依赖数据库和框架，application 层不依赖 HTTP；一个 Node 进程同时提供 API 和构建好的网页。</p><div class="diagram"><svg viewBox="0 0 960 340" role="img" aria-label="求职工作台结构"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-head"/></marker></defs><rect class="d-io" x="30" y="40" width="200" height="80" rx="10"/><text class="d-t" x="130.0" y="73.0" text-anchor="middle">Chrome 扩展（MV3）</text><text class="d-s" x="130.0" y="91.0" text-anchor="middle">点击 → 预览 → 保存岗位</text><text class="d-s" x="130.0" y="106.0" text-anchor="middle">activeTab · scripting · storage</text><rect class="d-io" x="30" y="190" width="200" height="80" rx="10"/><text class="d-t" x="130.0" y="223.0" text-anchor="middle">React 网页</text><text class="d-s" x="130.0" y="241.0" text-anchor="middle">投递、时间线、</text><text class="d-s" x="130.0" y="256.0" text-anchor="middle">导入、日历</text><rect class="d-node" x="300" y="100" width="190" height="110" rx="10"/><text class="d-t" x="395.0" y="148.0" text-anchor="middle">Fastify API</text><text class="d-s" x="395.0" y="166.0" text-anchor="middle">34 个 /v1 路由</text><text class="d-s" x="395.0" y="181.0" text-anchor="middle">Zod 校验契约</text><text class="d-s" x="395.0" y="196.0" text-anchor="middle">单进程同时提供</text><text class="d-s" x="395.0" y="211.0" text-anchor="middle">API 与网页</text><rect class="d-node" x="560" y="100" width="170" height="110" rx="10"/><text class="d-t" x="645.0" y="148.0" text-anchor="middle">application · domain</text><text class="d-s" x="645.0" y="166.0" text-anchor="middle">domain 不依赖</text><text class="d-s" x="645.0" y="181.0" text-anchor="middle">数据库和框架</text><text class="d-s" x="645.0" y="196.0" text-anchor="middle">application 不依赖 HTTP</text><rect class="d-gate" x="790" y="60" width="150" height="190" rx="10"/><text class="d-t" x="865.0" y="148.0" text-anchor="middle">SQLite</text><text class="d-s" x="865.0" y="166.0" text-anchor="middle">jobs</text><text class="d-s" x="865.0" y="181.0" text-anchor="middle">applications</text><text class="d-s" x="865.0" y="196.0" text-anchor="middle">（current_status）</text><text class="d-s" x="865.0" y="211.0" text-anchor="middle">application_events</text><text class="d-s" x="865.0" y="226.0" text-anchor="middle"></text><text class="d-s" x="865.0" y="241.0" text-anchor="middle">快照与事件</text><text class="d-s" x="865.0" y="256.0" text-anchor="middle">同一事务写入</text><path class="d-arr" d="M230,80 L265,80 L265,135 L296,135" marker-end="url(#ah)"/><path class="d-arr" d="M230,230 L265,230 L265,175 L296,175" marker-end="url(#ah)"/><path class="d-arr" d="M490,155 L556,155" marker-end="url(#ah)"/><path class="d-arr" d="M730,155 L786,155" marker-end="url(#ah)"/><text class="d-n" x="30" y="312" text-anchor="start">部署在私有服务器上，只监听 127.0.0.1，仅能通过 Tailscale 访问，没有公网端口。</text><text class="d-n" x="232" y="152" text-anchor="start">只保存岗位</text></svg></div></section>
+<section><h2>关键设计决策</h2><div class="decs"><article class="dec"><div class="num">01</div><div><h3>岗位和投递分开存</h3><dl><dt>选择</dt><dd>Job 是保存的岗位，Application 是针对它的一次求职流程；保存岗位绝不隐式创建投递。</dd><dt>放弃</dt><dd>每个岗位一行，用一列表示状态。</dd><dt>取舍</dt><dd>多了一个概念，但可以重新投递或换渠道投递；同一岗位已有进行中的投递时，第二次创建会在事务内被拒绝（HTTP 409）。</dd></dl></div></article><article class="dec"><div class="num">02</div><div><h3>状态快照和事件在同一事务里写入</h3><dl><dt>选择</dt><dd>current_status 是给列表用的快照；application_events 是时间线、统计和日历的事实来源。更正也是追加事件，不改写历史。</dd><dt>放弃</dt><dd>直接原地改状态。</dd><dt>取舍</dt><dd>每次变化多写一行，换来永远可追溯的时间线。</dd></dl></div></article><article class="dec"><div class="num">03</div><div><h3>冻结规格，migration 只追加</h3><dl><dt>选择</dt><dd>DDL、API 契约和导入格式先写成文档并冻结，再写代码；测试会检查运行时 migration 与冻结的 DDL 逐字节一致。</dd><dt>放弃</dt><dd>让 schema 跟着代码随意变化。</dd><dt>取舍</dt><dd>改协议要单独出一版文档，但文档、代码和测试之间可以自动核对，旧的导出文件也仍能导入。</dd></dl></div></article><article class="dec"><div class="num">04</div><div><h3>权限很窄、只保存岗位的扩展</h3><dl><dt>选择</dt><dd>扩展只有在用户点击后才读取当前页面（activeTab + scripting），先预览、查重，再保存岗位；投递状态只在网页里修改。</dd><dt>放弃</dt><dd><all_urls>、后台抓取、读取 Cookie，或在弹窗里直接修改投递。</dd><dt>取舍</dt><dd>不能在招聘页上直接推进投递，但状态变化只有一条路径，扩展也只需要 3 个权限和一个 host。</dd></dl></div></article><article class="dec"><div class="num">05</div><div><h3>导入先预览，再单事务写入</h3><dl><dt>选择</dt><dd>CSV/JSON 导入先把每行分成新建、完全重复、疑似重复、无效；确认后带幂等键在一个事务内全部写入。</dd><dt>放弃</dt><dd>静默覆盖，或自动合并疑似重复。</dd><dt>取舍</dt><dd>用户多一步确认；预览 15 分钟后失效，数据变化后旧预览也会失效。</dd></dl></div></article></div></section>
+<section><h2>结果</h2><p>我每天都在用它替代表格。CI 在每个 PR 上运行 420+ 个 Vitest 用例，包括 migration 逐字节校验，以及浅色/深色主题下的 WCAG AA 对比度测试。扩展的真实浏览器检查保留为人工验收，因为自动化无法代替真实的工具栏点击。</p></section>
+<section><h2>我负责的部分</h2><p>个人项目：从设计、开发到部署运行都由我负责。</p></section>
+<section><h2>局限与下一步</h2><ul><li>按单用户设计。如果要给别人用，需要先单独决策，并补齐认证、隔离和删除机制。</li><li>方向自动归类用的是固定关键词，结果可能需要人工复核。</li><li>因为应用里有个人数据，这里不放截图。</li></ul></section>
+<p class="crumb end"><a href="./">← 全部项目</a></p>
+</main>
+<footer class="wrap foot"><p>本站所有数字都来自各项目自己的仓库；仓库里没有记录的内容，页面上会直接说明。</p><p><a href="https://github.com/feizaodemon">github.com/feizaodemon</a></p></footer>
+</body>
+</html>
