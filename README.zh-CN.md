@@ -72,6 +72,10 @@ ROS1 Noetic · Python · C++ · Gazebo · Docker → [在浏览器里试用识�
 </tr>
 </table>
 
+## 业余项目
+
+**游戏 mod。** 给自己玩的游戏写的 BepInEx 插件，每个游戏一个仓库：[中国式家长修改器](https://github.com/feizaodemon/ChineseParents-Mod)（解锁、改属性、存档快照与回滚、游戏加速；带自测构建和一键安装包），以及一个私有的 BALL x PIT 进化助手。目录见 [game-mods](https://github.com/feizaodemon/game-mods)。
+
 ## 技术栈
 
 <p>

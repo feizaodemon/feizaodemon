@@ -72,6 +72,10 @@ Four Franka and UR5e projects. In each one I worked on the code and on the real-
 </tr>
 </table>
 
+## Side projects
+
+**Game mods.** BepInEx plugins for games I play, one repository per game: a [Chinese Parents cheat panel](https://github.com/feizaodemon/ChineseParents-Mod) (unlocks, attribute editing, save snapshots with rollback, game speed; a self-test build and a one-zip installer), and a private evolution helper for BALL x PIT. Index: [game-mods](https://github.com/feizaodemon/game-mods).
+
 ## Toolbox
 
 <p>
