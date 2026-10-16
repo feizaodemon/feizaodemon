@@ -26,7 +26,7 @@ Draw a symbol on a magnetic board or with the mouse. The system recognizes it, t
 
 - **Gesture to task.** A DTW template bank ranks pen or mouse strokes, with confidence and margin gates that reject unclear input. Five alternative recognizers are benchmarked against it under noise, rotation and truncation.
 - **Confirmation-gated control.** Recognition, confirmation, dispatch and execution are separate ROS nodes. Only the dispatcher can command the robot, and only after an explicit confirm.
-- **One teleop core, two robots.** A C++ Cartesian core with damped-least-squares IK drives both a Gazebo Panda and a Franka FR3 adapter.
+- **One teleop core, two backends.** A C++ Cartesian core with damped-least-squares IK is shared by a Gazebo Panda and a Franka FR3 adapter.
 
 ROS1 Noetic · Python · C++ · Gazebo · Docker → [Try the recognizer in your browser](https://feizaodemon.github.io/magnetic-trajectory-robot-interface/) · [Design decisions](https://github.com/feizaodemon/magnetic-trajectory-robot-interface/blob/main/docs/DESIGN_DECISIONS.md)
 
@@ -53,7 +53,7 @@ My part: code development, including the experiment switches that made frozen-GP
 
 A self-hosted tracker I use every day instead of a spreadsheet. Jobs and applications are kept separate, and every status change is written as an event in the same transaction.
 
-34 API routes, 420+ test cases in CI, and a Chrome extension that only saves jobs and asks for just 3 permissions.
+34 API routes, 430+ test cases in CI, and a Chrome extension that only saves jobs and asks for just 3 permissions.
 
 </td>
 <td width="33%" valign="top">

@@ -26,7 +26,7 @@
 
 - **从手势到任务**：DTW 模板库对笔迹或鼠标轨迹排序，置信度和差距门限会拒绝不清楚的输入；另外在噪声、旋转、截断扰动下与 5 种替代识别器做了对比评测。
 - **确认后才执行**：识别、确认、调度、执行是四个独立的 ROS 节点。只有调度节点能给机器人下指令，而且必须在操作员明确确认之后。
-- **一套遥操作核心驱动两台机器人**：基于阻尼最小二乘逆运动学的 C++ 笛卡尔核心，同时驱动 Gazebo 中的 Panda 和 Franka FR3 适配器。
+- **一套遥操作核心，两个后端**：基于阻尼最小二乘逆运动学的 C++ 笛卡尔核心，由 Gazebo 中的 Panda 和 Franka FR3 适配器共用。
 
 ROS1 Noetic · Python · C++ · Gazebo · Docker → [在浏览器里试用识别器](https://feizaodemon.github.io/magnetic-trajectory-robot-interface/) · [设计决策（英文）](https://github.com/feizaodemon/magnetic-trajectory-robot-interface/blob/main/docs/DESIGN_DECISIONS.md)
 
@@ -53,7 +53,7 @@ ROS1 Noetic · Python · C++ · Gazebo · Docker → [在浏览器里试用识�
 
 自己部署、每天在用的求职管理工具，替代了 Excel 表格。岗位和投递分开管理，每次状态变化都在同一个事务里记录为事件。
 
-34 个 API 路由、CI 中 420+ 个测试用例，配一个只保存岗位、只申请 3 个权限的 Chrome 扩展。
+34 个 API 路由、CI 中 430+ 个测试用例，配一个只保存岗位、只申请 3 个权限的 Chrome 扩展。
 
 </td>
 <td width="33%" valign="top">

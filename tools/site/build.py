@@ -19,7 +19,7 @@ UI = {
         "role": "My part", "limits": "Limits and what is next", "back": "All projects",
         "private": "Private repository. This page describes the work without the code.",
         "chosen": "Chosen", "instead": "Instead of", "cost": "Trade-off",
-        "footer": "Every number on this site comes from the project's own repository. Where a repository does not record something, the page says so.",
+        "footer": "Every number on this site comes from the project's own repository. Where a repository does not record something, the page says so; team sizes are stated by me.",
         "read": "Read the case study",
     },
     "zh": {
@@ -29,7 +29,7 @@ UI = {
         "role": "我负责的部分", "limits": "局限与下一步", "back": "全部项目",
         "private": "私有仓库。本页只介绍工作内容，不公开代码。",
         "chosen": "选择", "instead": "放弃", "cost": "取舍",
-        "footer": "本站所有数字都来自各项目自己的仓库；仓库里没有记录的内容，页面上会直接说明。",
+        "footer": "本站所有数字都来自各项目自己的仓库；仓库里没有记录的内容，页面上会直接说明；团队人数为本人说明。",
         "read": "阅读案例",
     },
 }
@@ -99,7 +99,7 @@ def mtri_diagram(L):
           t(L, "bounded targets · damped-least-squares IK\nworkspace and joint limits · finite-output checks",
             "有界目标 · 阻尼最小二乘逆运动学\n工作空间与关节限位 · 输出有限性检查"))
     d.box(565, 260, 365, 70, t(L, "Gazebo Panda  ·  Franka FR3", "Gazebo Panda  ·  Franka FR3"),
-          t(L, "the same core drives both", "同一核心驱动两台机器人"), "io")
+          t(L, "one core, two backends", "同一核心，两个后端"), "io")
     d.arrow([(160, 295), (191, 295)])
     d.arrow([(530, 295), (561, 295)])
     return d.svg()
@@ -189,8 +189,8 @@ def cw_diagram(L):
         d.box(30, y, 40, 34, n, "", "gate")
         d.box(80, y, 560, 34, txt, "")
     d.box(670, 210, 260, 118, t(L, "8th virtual joint η", "第 8 个虚拟关节 η"),
-          t(L, "insertion depth: moves the\ntrocar point, not the tip\nDLS damping 1e-3\nJacobians checked vs. finite diff.",
-            "插入深度：移动套管点，\n不移动工具尖端\nDLS 阻尼 1e-3\n雅可比与有限差分对照测试"))
+          t(L, "insertion depth: moves the\ntrocar point, not the tip\nDLS damping 1e‑3\nJacobians checked vs. finite diff.",
+            "插入深度：移动套管点，\n不移动工具尖端\nDLS 阻尼 1e‑3\n雅可比与有限差分对照测试"))
     return d.svg()
 
 
@@ -236,8 +236,8 @@ def mtri(L):
         "problem": T("<p>A gesture interface for a robot arm has two jobs that pull against each other. It should feel quick, but a wrong guess must never move the robot. The project also had to run the same way against a simulated Panda and a real Franka FR3, and keep working when the input came from a serial magnetic board instead of a mouse.</p>",
                      "<p>机械臂的手势交互有两个相互牵制的目标：要反应快，但识别错了绝不能让机器人动。同一套系统还要既能接 Gazebo 里的仿真 Panda，也能接真实的 Franka FR3，而且输入既可以是鼠标，也可以是串口磁性画板。</p>"),
         "diagram": mtri_diagram(L),
-        "how": T("<p>Recognition, confirmation, dispatch and execution are four separate ROS nodes. The recognizer only publishes ranked candidates. The dashboard publishes a label only after the operator confirms it. The dispatcher maps that label to a fixed task vocabulary and is the only node that can command the robot. A second mode, TELEOP, sends keyboard or board input through one C++ Cartesian core that drives both robots.</p>",
-                 "<p>识别、确认、调度、执行是四个独立的 ROS 节点。识别节点只发布排序后的候选；仪表盘只有在操作员确认后才发布标签；调度节点把标签映射到固定的任务表，并且是唯一能给机器人下指令的节点。另一个模式 TELEOP 把键盘或画板输入送进同一个 C++ 笛卡尔核心，由它驱动两台机器人。</p>"),
+        "how": T("<p>Recognition, confirmation, dispatch and execution are four separate ROS nodes. The recognizer only publishes ranked candidates. The dashboard publishes a label only after the operator confirms it. The dispatcher maps that label to a fixed task vocabulary and is the only node that can command the robot. A second mode, TELEOP, sends keyboard or board input through one C++ Cartesian core shared by the Gazebo Panda and the FR3 adapter.</p>",
+                 "<p>识别、确认、调度、执行是四个独立的 ROS 节点。识别节点只发布排序后的候选；仪表盘只有在操作员确认后才发布标签；调度节点把标签映射到固定的任务表，并且是唯一能给机器人下指令的节点。另一个模式 TELEOP 把键盘或画板输入送进同一个 C++ 笛卡尔核心，Gazebo Panda 和 FR3 适配器共用这个核心。</p>"),
         "decisions": [
             (T("A DTW template bank, benchmarked against five alternatives", "DTW 模板库，并与 5 种替代方法对比"),
              T("Strokes are normalized, resampled to 64 points and ranked by DTW against 124 templates. Confidence and margin gates reject unclear input.", "笔迹归一化、重采样为 64 点后，与 124 个模板做 DTW 排序；置信度和差距门限拒绝不清楚的输入。"),
@@ -293,7 +293,7 @@ def gp(L):
         "stats": [("9", T("design decisions documented", "条设计决策有记录")),
                   ("Stage 1–5", T("plus GOAL1, GOAL2, GOAL12", "以及 GOAL1、GOAL2、GOAL12")),
                   ("14-D", T("support check before GP-on", "开启 GP 前的覆盖检查")),
-                  ("0", T("compensation by default", "默认补偿量（默认关闭）"))],
+                  (T("Off", "关闭"), T("compensation by default", "默认补偿状态"))],
         "media": "",
         "problem": T("<p>An impedance controller leaves a residual between the torque it expects and the torque the robot needs. A GP can predict part of that residual, but feeding a learned prediction into a torque loop on real hardware is risky, and an online-updating model makes any before/after comparison hard to attribute. The work was to make GP compensation testable on the real robot without losing control of the risk.</p>",
                      "<p>阻抗控制器预期的力矩和机器人实际需要的力矩之间存在残差。GP 可以预测其中一部分，但把学习到的预测送进真机的力矩回路有风险；而模型一边运行一边在线更新，就很难判断前后差异到底来自哪里。这项工作要做的，是让 GP 补偿在真机上变得可测试，同时把风险控制住。</p>"),
@@ -331,7 +331,7 @@ def gp(L):
             T("Simulation covered kinematics and topic wiring only: no dynamics or torque-safety claims.", "仿真只覆盖了运动学和话题连线，不涉及动力学和力矩安全的结论。"),
             T("The session-relative anchor is work in progress; no validated real run after the last fix is recorded.", "会话相对锚点还在开发中，最后一次修复之后还没有记录到经过验证的真机运行。"),
         ]),
-        "card": T("Frozen-GP and historical-database torque residual compensation on a Franka Panda, tested in stages on the real robot.", "在 Franka Panda 上做冻结 GP 与历史数据库的力矩残差补偿，分阶段在真机上测试。"),
+        "card": T("Frozen-GP torque residual compensation on a Franka Panda, tested in stages on the real robot; a historical residual database was chosen as the next source.", "在 Franka Panda 上做冻结 GP 力矩残差补偿，分阶段在真机上测试；历史残差数据库被选为下一轮补偿源。"),
         "card_stats": [T("team project", "团队项目"), T("real-robot tests", "真机测试"), "ROS 2"],
     }
 
@@ -345,7 +345,7 @@ def jt(L):
                   "自己部署、每天在用的求职管理工具，替代了 Excel 表格，配一个能从正在看的招聘页保存岗位的 Chrome 扩展。"),
         "links": [], "public": False,
         "stats": [("34", T("/v1 API routes", "个 /v1 API 路由")),
-                  ("420+", T("Vitest cases in 66 files", "个 Vitest 用例，66 个测试文件")),
+                  ("430+", T("Vitest cases in 68 files", "个 Vitest 用例，68 个测试文件")),
                   ("6 · 10", T("SQLite tables · indexes", "张表 · 个索引")),
                   ("3", T("extension permissions", "个扩展权限"))],
         "media": "",
@@ -369,15 +369,15 @@ def jt(L):
              T("A protocol change needs its own versioned document, but docs, code and tests can be checked against each other automatically, and old exports still import.", "改协议要单独出一版文档，但文档、代码和测试之间可以自动核对，旧的导出文件也仍能导入。")),
             (T("A narrow extension that only saves jobs", "权限很窄、只保存岗位的扩展"),
              T("The extension reads the current page only after a click (activeTab + scripting), shows a preview, checks for duplicates, and saves a job. Application status is only edited in the web app.", "扩展只有在用户点击后才读取当前页面（activeTab + scripting），先预览、查重，再保存岗位；投递状态只在网页里修改。"),
-             T("<all_urls>, background scraping, cookie access, or editing applications from the popup.", "<all_urls>、后台抓取、读取 Cookie，或在弹窗里直接修改投递。"),
+             T("&lt;all_urls&gt;, background scraping, cookie access, or editing applications from the popup.", "&lt;all_urls&gt;、后台抓取、读取 Cookie，或在弹窗里直接修改投递。"),
              T("You cannot advance an application from the job page, but there is one path for status changes and the extension needs only 3 permissions and one host.", "不能在招聘页上直接推进投递，但状态变化只有一条路径，扩展也只需要 3 个权限和一个 host。")),
             (T("Import with a preview, then one transaction", "导入先预览，再单事务写入"),
              T("CSV/JSON import first classifies every row as new, duplicate, possible duplicate or invalid; after confirmation it writes everything in one transaction with an idempotency key.", "CSV/JSON 导入先把每行分成新建、完全重复、疑似重复、无效；确认后带幂等键在一个事务内全部写入。"),
              T("Silent overwrite or automatic merging of possible duplicates.", "静默覆盖，或自动合并疑似重复。"),
              T("One more step for the user; a preview expires after 15 minutes and goes stale if the data changes.", "用户多一步确认；预览 15 分钟后失效，数据变化后旧预览也会失效。")),
         ],
-        "results": T("<p>I use it every day in place of a spreadsheet. CI runs the 420+ Vitest cases on every pull request, including the byte-for-byte migration check and a WCAG AA contrast test across light and dark themes. Real browser checks of the extension stay manual, because automation cannot stand in for a real toolbar click.</p>",
-                     "<p>我每天都在用它替代表格。CI 在每个 PR 上运行 420+ 个 Vitest 用例，包括 migration 逐字节校验，以及浅色/深色主题下的 WCAG AA 对比度测试。扩展的真实浏览器检查保留为人工验收，因为自动化无法代替真实的工具栏点击。</p>"),
+        "results": T("<p>I use it every day in place of a spreadsheet. CI runs the 430+ Vitest cases on every pull request, including the byte-for-byte migration check and a WCAG AA contrast test across light and dark themes. Real browser checks of the extension stay manual, because automation cannot stand in for a real toolbar click.</p>",
+                     "<p>我每天都在用它替代表格。CI 在每个 PR 上运行 430+ 个 Vitest 用例，包括 migration 逐字节校验，以及浅色/深色主题下的 WCAG AA 对比度测试。扩展的真实浏览器检查保留为人工验收，因为自动化无法代替真实的工具栏点击。</p>"),
         "role": T("<p>A personal project: I designed and built it, and I run it.</p>", "<p>个人项目：从设计、开发到部署运行都由我负责。</p>"),
         "limits": ul([
             T("Single user by design. Sharing with other people would need a separate decision with authentication, isolation and deletion in place first.", "按单用户设计。如果要给别人用，需要先单独决策，并补齐认证、隔离和删除机制。"),
@@ -385,7 +385,7 @@ def jt(L):
             T("Screenshots are not shown here because the app holds personal data.", "因为应用里有个人数据，这里不放截图。"),
         ]),
         "card": T("Self-hosted tracker with an audited application timeline and a one-click, 3-permission job-capture extension.", "自托管的求职管理工具：可追溯的投递时间线，加一个只需 3 个权限的一键保存扩展。"),
-        "card_stats": ["34 routes", "420+ tests", "MV3"],
+        "card_stats": [T("34 routes", "34 个路由"), T("430+ tests", "430+ 个测试"), "MV3"],
     }
 
 
@@ -398,7 +398,7 @@ def cw(L):
                   "在 UR5e、Franka Panda 和 Franka FR3 上完成的四个项目：按 SVG 绘图、示教并回放动作、用相机找到亮起的按钮并按下、让工具始终穿过一个固定点运动。"),
         "links": [], "public": False,
         "stats": [("4", T("projects, 3 robots", "个项目，3 种机器人")),
-                  ("77 s → ~180 s", T("drawing time, sim vs. real", "绘图耗时，仿真对比真机")),
+                  ("77 s → ~180 s", T("drawing time, sim vs. real", "绘图耗时，仿真对比真机")),
                   ("13,833", T("taught samples over 13.8 s", "个示教采样，共 13.8 s")),
                   ("3", T("priority levels in the RCM solver", "层 RCM 任务优先级"))],
         "media": "",
@@ -417,7 +417,7 @@ def cw(L):
              T("Fully visual 3D pressing, and MoveIt free-space trajectories that were too large for the compact board.", "完全依赖视觉的三维按压，以及在紧凑面板上轨迹过大的 MoveIt 自由空间规划。"),
              T("Small calibration or execution errors are not trusted during contact, but the press is only validated at the taught board placement.", "接触时不依赖小的标定或执行误差，但按压只在示教时的面板位置上验证过。")),
             (T("Strict task priority with an 8th virtual joint", "严格任务优先级加第 8 个虚拟关节"),
-             T("Insertion depth is a virtual prismatic joint η. The RCM constraint comes first, tool-tip tracking runs in its null space, and joint-limit centering in what is left, with damped least squares (1e-3).", "插入深度建模为虚拟移动关节 η；RCM 约束优先，工具尖端跟踪在其零空间中，关节限位居中在剩余零空间中，求解用阻尼最小二乘（1e-3）。"),
+             T("Insertion depth is a virtual prismatic joint η. The RCM constraint comes first, tool-tip tracking runs in its null space, and joint-limit centering in what is left, with damped least squares (1e‑3).", "插入深度建模为虚拟移动关节 η；RCM 约束优先，工具尖端跟踪在其零空间中，关节限位居中在剩余零空间中，求解用阻尼最小二乘（1e‑3）。"),
              T("Weighted, non-strict priorities.", "加权的非严格优先级。"),
              T("When the tasks conflict, the tip yields to the RCM. Analytical Jacobians are checked against finite differences in a unit test.", "任务冲突时工具尖端让位于 RCM；解析雅可比在单元测试中与有限差分对照验证。")),
             (T("Measure simulated vs. real time instead of assuming it", "实测仿真和真机节拍，而不是想当然"),
