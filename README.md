@@ -41,7 +41,7 @@ ROS1 Noetic · Python · C++ · Gazebo · Docker → [Design decisions](https://
 
 Learning the residual joint torque of a Franka Panda with Gaussian processes and feeding a small, clipped share back into an impedance controller.
 
-My part: the experiment switches that made frozen-GP tests possible, a staged real-robot test programme with a plan and report for each stage, and the offline analysis that compared the online GPs with a historical residual database.
+My part: code development, including the experiment switches that made frozen-GP tests possible; real-robot testing in the lab; a staged test programme with a plan and report for each stage; and the offline analysis that compared the online GPs with a historical residual database.
 
 </td>
 <td width="33%" valign="top">
@@ -59,7 +59,7 @@ A self-hosted tracker I use every day instead of a spreadsheet. Jobs and applica
 **Robot manipulation coursework**<br>
 <sub>Group projects · ROS 2 · C++</sub>
 
-Four Franka and UR5e projects:
+Four Franka and UR5e projects. In each one I worked on the code and on the real-robot tests.
 
 - task-priority IK under a remote-center-of-motion constraint, run on a real FR3
 - hand-taught trajectories replayed by a custom joint-impedance torque controller
