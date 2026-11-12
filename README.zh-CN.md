@@ -5,9 +5,9 @@
 
 <p align="center"><a href="https://github.com/feizaodemon">English</a> · <b>简体中文</b></p>
 
-我做端到端的机器人软件：识别与监督逻辑、Franka 机械臂上的笛卡尔控制和力矩控制，以及验证它们是否真正有效的实验和测试。表格不够用的时候，我会自己写工具。
+我做端到端的机器人软件：识别与监督逻辑、Franka 机械臂上的笛卡尔控制和力矩控制，以及验证它们是否真正有效的实验和测试。
 
-**四个项目（包括私有项目）的案例介绍：** [feizaodemon.github.io/feizaodemon/zh/](https://feizaodemon.github.io/feizaodemon/zh/)
+**三个项目（包括私有项目）的案例介绍：** [feizaodemon.github.io/feizaodemon/zh/](https://feizaodemon.github.io/feizaodemon/zh/)
 
 ## 代表项目
 
@@ -36,7 +36,7 @@ ROS1 Noetic · Python · C++ · Gazebo · Docker → [在浏览器里试用识�
 
 <table>
 <tr>
-<td width="33%" valign="top">
+<td width="50%" valign="top">
 
 **高斯过程力矩补偿**<br>
 <sub>团队科研项目 · ROS 2 · Python</sub>
@@ -46,17 +46,7 @@ ROS1 Noetic · Python · C++ · Gazebo · Docker → [在浏览器里试用识�
 我负责的部分：代码开发（包括让 frozen GP 实验成为可能的实验开关）、实验室真机测试、分阶段实验计划（每个阶段都有计划和报告），以及对比在线 GP 与历史残差数据库的离线分析。
 
 </td>
-<td width="33%" valign="top">
-
-**求职工作台**<br>
-<sub>个人工具 · TypeScript · Fastify · React · SQLite</sub>
-
-自己部署、每天在用的求职管理工具，替代了 Excel 表格。岗位和投递分开管理，每次状态变化都在同一个事务里记录为事件。
-
-34 个 API 路由、CI 中 430+ 个测试用例，配一个只保存岗位、只申请 3 个权限的 Chrome 扩展。
-
-</td>
-<td width="33%" valign="top">
+<td width="50%" valign="top">
 
 **机器人操作课程项目**<br>
 <sub>小组项目 · ROS 2 · C++</sub>
@@ -72,10 +62,6 @@ ROS1 Noetic · Python · C++ · Gazebo · Docker → [在浏览器里试用识�
 </tr>
 </table>
 
-## 业余项目
-
-**游戏 mod。** 给自己玩的游戏写的 BepInEx 插件，每个游戏一个仓库：[中国式家长修改器](https://github.com/feizaodemon/ChineseParents-Mod)（解锁、改属性、存档快照与回滚、游戏加速；带自测构建和一键安装包），以及一个私有的 BALL x PIT 进化助手。目录见 [game-mods](https://github.com/feizaodemon/game-mods)。
-
 ## 技术栈
 
 <p>
@@ -84,10 +70,6 @@ ROS1 Noetic · Python · C++ · Gazebo · Docker → [在浏览器里试用识�
   <img alt="Python" src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white">
   <img alt="Gazebo" src="https://img.shields.io/badge/Gazebo-F58113?style=flat-square">
   <img alt="MuJoCo" src="https://img.shields.io/badge/MuJoCo-4B5563?style=flat-square">
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white">
-  <img alt="React" src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB">
-  <img alt="Fastify" src="https://img.shields.io/badge/Fastify-000000?style=flat-square&logo=fastify&logoColor=white">
-  <img alt="SQLite" src="https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white">
   <img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white">
   <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white">
 </p>

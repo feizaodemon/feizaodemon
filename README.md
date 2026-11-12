@@ -5,9 +5,9 @@
 
 <p align="center"><b>English</b> · <a href="https://github.com/feizaodemon/feizaodemon/blob/main/README.zh-CN.md">简体中文</a></p>
 
-I build robot software end to end: recognition and supervision logic, Cartesian and torque controllers on Franka arms, and the experiments and tests that show whether they work. When a spreadsheet stops being enough, I build the tool myself.
+I build robot software end to end: recognition and supervision logic, Cartesian and torque controllers on Franka arms, and the experiments and tests that show whether they work.
 
-**Case studies of all four projects, including the private ones:** [feizaodemon.github.io/feizaodemon](https://feizaodemon.github.io/feizaodemon/)
+**Case studies of all three projects, including the private ones:** [feizaodemon.github.io/feizaodemon](https://feizaodemon.github.io/feizaodemon/)
 
 ## Featured project
 
@@ -32,11 +32,11 @@ ROS1 Noetic · Python · C++ · Gazebo · Docker → [Try the recognizer in your
 
 ## More work
 
-<sub>These repositories are private (team, coursework or personal data), so they are described here instead of linked. Each one has a longer [case study](https://feizaodemon.github.io/feizaodemon/).</sub>
+<sub>These repositories are private (team work and coursework), so they are described here instead of linked. Each one has a longer [case study](https://feizaodemon.github.io/feizaodemon/).</sub>
 
 <table>
 <tr>
-<td width="33%" valign="top">
+<td width="50%" valign="top">
 
 **GP torque compensation**<br>
 <sub>Team research project · ROS 2 · Python</sub>
@@ -46,17 +46,7 @@ Learning the residual joint torque of a Franka Panda with Gaussian processes and
 My part: code development, including the experiment switches that made frozen-GP tests possible; real-robot testing in the lab; a staged test programme with a plan and report for each stage; and the offline analysis that compared the online GPs with a historical residual database.
 
 </td>
-<td width="33%" valign="top">
-
-**Job-search workbench**<br>
-<sub>Personal tool · TypeScript · Fastify · React · SQLite</sub>
-
-A self-hosted tracker I use every day instead of a spreadsheet. Jobs and applications are kept separate, and every status change is written as an event in the same transaction.
-
-34 API routes, 430+ test cases in CI, and a Chrome extension that only saves jobs and asks for just 3 permissions.
-
-</td>
-<td width="33%" valign="top">
+<td width="50%" valign="top">
 
 **Robot manipulation coursework**<br>
 <sub>Group projects · ROS 2 · C++</sub>
@@ -72,10 +62,6 @@ Four Franka and UR5e projects. In each one I worked on the code and on the real-
 </tr>
 </table>
 
-## Side projects
-
-**Game mods.** BepInEx plugins for games I play, one repository per game: a [Chinese Parents cheat panel](https://github.com/feizaodemon/ChineseParents-Mod) (unlocks, attribute editing, save snapshots with rollback, game speed; a self-test build and a one-zip installer), and a private evolution helper for BALL x PIT. Index: [game-mods](https://github.com/feizaodemon/game-mods).
-
 ## Toolbox
 
 <p>
@@ -84,10 +70,6 @@ Four Franka and UR5e projects. In each one I worked on the code and on the real-
   <img alt="Python" src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white">
   <img alt="Gazebo" src="https://img.shields.io/badge/Gazebo-F58113?style=flat-square">
   <img alt="MuJoCo" src="https://img.shields.io/badge/MuJoCo-4B5563?style=flat-square">
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white">
-  <img alt="React" src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB">
-  <img alt="Fastify" src="https://img.shields.io/badge/Fastify-000000?style=flat-square&logo=fastify&logoColor=white">
-  <img alt="SQLite" src="https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white">
   <img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white">
   <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white">
 </p>

@@ -9,7 +9,7 @@ GH = "https://github.com/feizaodemon"
 MTRI = f"{GH}/magnetic-trajectory-robot-interface"
 DEMO = "https://feizaodemon.github.io/magnetic-trajectory-robot-interface/"
 
-PAGES = ["index", "mtri", "gp", "job-tracker", "coursework"]
+PAGES = ["index", "mtri", "gp", "coursework"]
 
 UI = {
     "en": {
@@ -137,28 +137,6 @@ def gp_diagram(L):
         if i < 4:
             d.arrow([(x + 158, 312), (x + 180, 312)])
         x += 184
-    return d.svg()
-
-
-def jt_diagram(L):
-    d = Diagram(960, 340, t(L, "Job-search workbench architecture", "求职工作台结构"))
-    d.box(30, 40, 200, 80, t(L, "Chrome extension (MV3)", "Chrome 扩展（MV3）"),
-          t(L, "click → preview → save Job\nactiveTab · scripting · storage", "点击 → 预览 → 保存岗位\nactiveTab · scripting · storage"), "io")
-    d.box(30, 190, 200, 80, t(L, "React web app", "React 网页"),
-          t(L, "applications, timeline,\nimport, calendar", "投递、时间线、\n导入、日历"), "io")
-    d.box(300, 100, 190, 110, t(L, "Fastify API", "Fastify API"),
-          t(L, "34 /v1 routes\nZod contracts\none process serves\nAPI + built web", "34 个 /v1 路由\nZod 校验契约\n单进程同时提供\nAPI 与网页"))
-    d.box(560, 100, 170, 110, t(L, "application · domain", "application · domain"),
-          t(L, "domain: no DB,\nno framework\napplication: no HTTP", "domain 不依赖\n数据库和框架\napplication 不依赖 HTTP"))
-    d.box(790, 60, 150, 190, t(L, "SQLite", "SQLite"),
-          t(L, "jobs\napplications\n(current_status)\napplication_events\n\nsnapshot + event\nin one transaction", "jobs\napplications\n（current_status）\napplication_events\n\n快照与事件\n同一事务写入"), "gate")
-    d.arrow([(230, 80), (265, 80), (265, 135), (296, 135)])
-    d.arrow([(230, 230), (265, 230), (265, 175), (296, 175)])
-    d.arrow([(490, 155), (556, 155)])
-    d.arrow([(730, 155), (786, 155)])
-    d.note(30, 312, t(L, "Runs on a private server, bound to 127.0.0.1 and reachable only over Tailscale; no public port.",
-                      "部署在私有服务器上，只监听 127.0.0.1，仅能通过 Tailscale 访问，没有公网端口。"))
-    d.note(232, 152, t(L, "saves Jobs only", "只保存岗位"), "start", "d-n")
     return d.svg()
 
 
@@ -336,59 +314,6 @@ def gp(L):
     }
 
 
-def jt(L):
-    T = lambda en, zh: t(L, en, zh)
-    return {
-        "title": T("Job-search workbench", "求职工作台"),
-        "kicker": T("Personal tool · TypeScript · Fastify · React · SQLite", "个人工具 · TypeScript · Fastify · React · SQLite"),
-        "lede": T("A self-hosted tracker I use every day instead of a spreadsheet, with a Chrome extension that saves a job from the page I am reading.",
-                  "自己部署、每天在用的求职管理工具，替代了 Excel 表格，配一个能从正在看的招聘页保存岗位的 Chrome 扩展。"),
-        "links": [], "public": False,
-        "stats": [("34", T("/v1 API routes", "个 /v1 API 路由")),
-                  ("430+", T("Vitest cases in 68 files", "个 Vitest 用例，68 个测试文件")),
-                  ("6 · 10", T("SQLite tables · indexes", "张表 · 个索引")),
-                  ("3", T("extension permissions", "个扩展权限"))],
-        "media": "",
-        "problem": T("<p>A spreadsheet loses history: when a status cell is overwritten, the timeline is gone, and saving a posting and applying to it end up as the same row. I wanted a tool that keeps every status change as an event, separates “saved” from “applied”, and captures a posting in one click without giving a browser extension broad access.</p>",
-                     "<p>表格会丢历史：状态单元格一改，时间线就没了；“收藏了岗位”和“已经投递”也挤在同一行里。我想要一个工具：每次状态变化都保留为事件，把“已保存”和“已投递”分开，并且能一键保存岗位，同时不给浏览器扩展过大的权限。</p>"),
-        "diagram": jt_diagram(L),
-        "how": T("<p>A pnpm monorepo: a Fastify API with Zod contracts, a React web app and a Manifest V3 extension, over SQLite with Drizzle. The domain layer has no database or framework dependency, and the application layer has no HTTP dependency. One Node process serves both the API and the built web app.</p>",
-                 "<p>pnpm monorepo：Fastify API 配 Zod 契约、React 网页、Manifest V3 扩展，数据存在 SQLite（Drizzle）。domain 层不依赖数据库和框架，application 层不依赖 HTTP；一个 Node 进程同时提供 API 和构建好的网页。</p>"),
-        "decisions": [
-            (T("Jobs and applications are separate records", "岗位和投递分开存"),
-             T("A Job is a saved posting; an Application is one attempt at it. Saving a job never creates an application.", "Job 是保存的岗位，Application 是针对它的一次求职流程；保存岗位绝不隐式创建投递。"),
-             T("One row per posting with a status column.", "每个岗位一行，用一列表示状态。"),
-             T("Two concepts to explain, but re-applying or applying through another channel works, and a second open application for the same job is rejected inside the transaction (HTTP 409).", "多了一个概念，但可以重新投递或换渠道投递；同一岗位已有进行中的投递时，第二次创建会在事务内被拒绝（HTTP 409）。")),
-            (T("A status snapshot plus an event, in one transaction", "状态快照和事件在同一事务里写入"),
-             T("current_status is a snapshot for lists; application_events is the source of truth for the timeline, statistics and calendar. Corrections append events instead of rewriting history.", "current_status 是给列表用的快照；application_events 是时间线、统计和日历的事实来源。更正也是追加事件，不改写历史。"),
-             T("Updating the status in place.", "直接原地改状态。"),
-             T("One extra row per change, in exchange for a timeline that can always be traced.", "每次变化多写一行，换来永远可追溯的时间线。")),
-            (T("Frozen specs and append-only migrations", "冻结规格，migration 只追加"),
-             T("The DDL, API contract and import format were written and frozen before the code. A test checks that runtime migrations match the frozen DDL byte for byte.", "DDL、API 契约和导入格式先写成文档并冻结，再写代码；测试会检查运行时 migration 与冻结的 DDL 逐字节一致。"),
-             T("Letting the schema drift with the code.", "让 schema 跟着代码随意变化。"),
-             T("A protocol change needs its own versioned document, but docs, code and tests can be checked against each other automatically, and old exports still import.", "改协议要单独出一版文档，但文档、代码和测试之间可以自动核对，旧的导出文件也仍能导入。")),
-            (T("A narrow extension that only saves jobs", "权限很窄、只保存岗位的扩展"),
-             T("The extension reads the current page only after a click (activeTab + scripting), shows a preview, checks for duplicates, and saves a job. Application status is only edited in the web app.", "扩展只有在用户点击后才读取当前页面（activeTab + scripting），先预览、查重，再保存岗位；投递状态只在网页里修改。"),
-             T("&lt;all_urls&gt;, background scraping, cookie access, or editing applications from the popup.", "&lt;all_urls&gt;、后台抓取、读取 Cookie，或在弹窗里直接修改投递。"),
-             T("You cannot advance an application from the job page, but there is one path for status changes and the extension needs only 3 permissions and one host.", "不能在招聘页上直接推进投递，但状态变化只有一条路径，扩展也只需要 3 个权限和一个 host。")),
-            (T("Import with a preview, then one transaction", "导入先预览，再单事务写入"),
-             T("CSV/JSON import first classifies every row as new, duplicate, possible duplicate or invalid; after confirmation it writes everything in one transaction with an idempotency key.", "CSV/JSON 导入先把每行分成新建、完全重复、疑似重复、无效；确认后带幂等键在一个事务内全部写入。"),
-             T("Silent overwrite or automatic merging of possible duplicates.", "静默覆盖，或自动合并疑似重复。"),
-             T("One more step for the user; a preview expires after 15 minutes and goes stale if the data changes.", "用户多一步确认；预览 15 分钟后失效，数据变化后旧预览也会失效。")),
-        ],
-        "results": T("<p>I use it every day in place of a spreadsheet. CI runs the 430+ Vitest cases on every pull request, including the byte-for-byte migration check and a WCAG AA contrast test across light and dark themes. Real browser checks of the extension stay manual, because automation cannot stand in for a real toolbar click.</p>",
-                     "<p>我每天都在用它替代表格。CI 在每个 PR 上运行 430+ 个 Vitest 用例，包括 migration 逐字节校验，以及浅色/深色主题下的 WCAG AA 对比度测试。扩展的真实浏览器检查保留为人工验收，因为自动化无法代替真实的工具栏点击。</p>"),
-        "role": T("<p>A personal project: I designed and built it, and I run it.</p>", "<p>个人项目：从设计、开发到部署运行都由我负责。</p>"),
-        "limits": ul([
-            T("Single user by design. Sharing with other people would need a separate decision with authentication, isolation and deletion in place first.", "按单用户设计。如果要给别人用，需要先单独决策，并补齐认证、隔离和删除机制。"),
-            T("Direction tagging uses fixed keywords, so results may need a manual check.", "方向自动归类用的是固定关键词，结果可能需要人工复核。"),
-            T("Screenshots are not shown here because the app holds personal data.", "因为应用里有个人数据，这里不放截图。"),
-        ]),
-        "card": T("Self-hosted tracker with an audited application timeline and a one-click, 3-permission job-capture extension.", "自托管的求职管理工具：可追溯的投递时间线，加一个只需 3 个权限的一键保存扩展。"),
-        "card_stats": [T("34 routes", "34 个路由"), T("430+ tests", "430+ 个测试"), "MV3"],
-    }
-
-
 def cw(L):
     T = lambda en, zh: t(L, en, zh)
     return {
@@ -439,7 +364,7 @@ def cw(L):
     }
 
 
-BUILDERS = {"mtri": mtri, "gp": gp, "job-tracker": jt, "coursework": cw}
+BUILDERS = {"mtri": mtri, "gp": gp, "coursework": cw}
 
 
 # ---------------------------------------------------------------- pages
@@ -506,7 +431,7 @@ def index_page(L):
     T = lambda en, zh: t(L, en, zh)
     root = "../" if L == "zh" else ""
     cards = []
-    for slug in ["mtri", "gp", "job-tracker", "coursework"]:
+    for slug in ["mtri", "gp", "coursework"]:
         p = BUILDERS[slug](L)
         feat = slug == "mtri"
         img = (f'<img src="{root}assets/mtri-task-gazebo.gif" alt="" loading="lazy">' if feat else "")
@@ -518,16 +443,16 @@ def index_page(L):
 <span class="more">{u['read']} →</span></div></a>""")
     body = f"""<section class="hero home">
 <svg class="loop" viewBox="0 0 400 160" aria-hidden="true"><path d="M20,120 C80,10 160,10 190,80 C220,150 300,150 340,60 C360,20 390,30 385,70"/><circle cx="385" cy="70" r="6"/></svg>
-<p class="kicker">{T("Robot software · control · full-stack tools", "机器人软件 · 控制 · 全栈工具")}</p>
+<p class="kicker">{T("Robot software · control · experiments", "机器人软件 · 控制 · 实验")}</p>
 <h1>{u['name']}</h1>
-<p class="lede">{T("I build robot software end to end: recognition and supervision logic, Cartesian and torque controllers on Franka arms, and the experiments and tests that show whether they work. When a spreadsheet stops being enough, I build the tool myself.", "我做端到端的机器人软件：识别与监督逻辑、Franka 机械臂上的笛卡尔控制和力矩控制，以及验证它们是否真正有效的实验和测试。表格不够用的时候，我会自己写工具。")}</p>
+<p class="lede">{T("I build robot software end to end: recognition and supervision logic, Cartesian and torque controllers on Franka arms, and the experiments and tests that show whether they work.", "我做端到端的机器人软件：识别与监督逻辑、Franka 机械臂上的笛卡尔控制和力矩控制，以及验证它们是否真正有效的实验和测试。")}</p>
 <div class="actions"><a class="btn primary" href="{DEMO}">{T("Try the gesture recognizer", "在线试用手势识别器")}</a><a class="btn" href="{GH}">GitHub</a></div>
 </section>
 <section><h2>{T("Case studies", "项目案例")}</h2>
-<p class="sub">{T("One project is open source. The other three are private because they are team work, coursework or hold personal data, so each case study explains the problem, the design and the trade-offs without the code.", "其中一个项目是开源的；另外三个是团队项目、课程作业或含有个人数据，所以仓库是私有的。每个案例都讲清问题、设计和取舍，但不公开代码。")}</p>
+<p class="sub">{T("One project is open source. The other two are private because they are team work and coursework, so each case study explains the problem, the design and the trade-offs without the code.", "其中一个项目是开源的；另外两个是团队项目和课程作业，所以仓库是私有的。每个案例都讲清问题、设计和取舍，但不公开代码。")}</p>
 <div class="cards">{''.join(cards)}</div></section>"""
     title = T("Xiaowei Rong · Robot software case studies", "Xiaowei Rong · 机器人软件项目案例")
-    return page(L, "index", title, T("Case studies of four robotics and software projects.", "四个机器人与软件项目的案例介绍。"), body)
+    return page(L, "index", title, T("Case studies of three robotics projects.", "三个机器人项目的案例介绍。"), body)
 
 
 def main():
