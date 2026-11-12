@@ -1,6 +1,6 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/banner-en-dark.svg">
-  <img alt="Xiaowei Rong: robot software, control, full-stack tools" src="assets/banner-en-light.svg" width="100%">
+  <img alt="Xiaowei Rong: robot software, control, experiments" src="assets/banner-en-light.svg" width="100%">
 </picture>
 
 <p align="center"><b>English</b> · <a href="https://github.com/feizaodemon/feizaodemon/blob/main/README.zh-CN.md">简体中文</a></p>
